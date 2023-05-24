@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.Objects;
 
 public class ViewPageFragment extends Fragment {
@@ -30,12 +32,24 @@ public class ViewPageFragment extends Fragment {
              }
          }
 
+         IngredientFragment ingredientFragment = new IngredientFragment();
+         DirectionFragment directionFragment  =  new DirectionFragment();
+
+
         ViewPager viewPager = view.findViewById(R.id.viewPager);
          viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
              @NonNull
              @Override
              public Fragment getItem(int position) {
-                 return null;
+
+
+                 return position == 0 ? ingredientFragment : directionFragment;
+             }
+
+             @NonNull
+             @Override
+             public CharSequence getPageTitle(int position) {
+                 return position == 0  ? "Ingredient" : "Directions";
              }
 
              @Override
@@ -43,6 +57,9 @@ public class ViewPageFragment extends Fragment {
                  return 2;
              }
          });
+
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
         return view;
     }
 
