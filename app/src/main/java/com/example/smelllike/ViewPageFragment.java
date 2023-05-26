@@ -6,20 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-
-import java.util.Objects;
 
 public class ViewPageFragment extends Fragment {
 
@@ -29,20 +24,19 @@ public class ViewPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_pager , container , false);
          Bundle bundle = getArguments();
          Bundle bundle1 = new Bundle();
+         Bundle directionBundle = new Bundle();
          if(bundle != null){
              int position = bundle.getInt(KEY_RECIPE_INDEX);
 
                 getActivity().setTitle(Recipes.names[position]);
                 bundle1.putInt(KEY_RECIPE_INDEX , position );
          }
+         DirectionsFragment directionFragment = new DirectionsFragment();
+         IngredientsFragment ingredientFragment = new IngredientsFragment();
 
-         IngredientFragment ingredientFragment = new IngredientFragment();
-         DirectionFragment directionFragment  =  new DirectionFragment();
-
-         ingredientFragment.setArguments(bundle1);
          directionFragment.setArguments(bundle1);
-
-        ViewPager2 viewPager = view.findViewById(R.id.viewPager);
+         ingredientFragment.setArguments(bundle1);
+         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
 
         viewPager.setAdapter(new FragmentStateAdapter(requireActivity()) {
             @NonNull

@@ -1,7 +1,6 @@
 package com.example.smelllike;
 
 import static com.example.smelllike.MainActivity.KEY_RECIPE_INDEX;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class IngredientFragment extends Fragment {
+public abstract class CheckBoxesFragment extends Fragment {
 
     private static final String KEY_CHECKED_BOXES =  "key_checked_boxes";
     private CheckBox[] checkBoxes;
@@ -21,19 +20,20 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_ingredient , container , false);
+        View view =  inflater.inflate(R.layout.fragment_checkboxes, container , false);
         Bundle bundle = getArguments();
-        String[] ingredients ;
-        LinearLayout linearLayout = view.findViewById(R.id.ingredientLayout);
+        String[] recipeData ;
+        LinearLayout linearLayout = view.findViewById(R.id.checkBoxesLayout);
         assert bundle != null;
         int position = bundle.getInt(KEY_RECIPE_INDEX);
-        ingredients =  Recipes.ingredients[position].split("`");
-        checkBoxes =  new CheckBox[ingredients.length];
+        String[] contents =  getContents(position);
+
+        checkBoxes =  new CheckBox[contents.length];
         if(savedInstanceState != null){
             boolean[] stateOfCheckedBox =  savedInstanceState.getBooleanArray(KEY_CHECKED_BOXES);
-            setUpCheckBoxes(ingredients , linearLayout , stateOfCheckedBox);
+            setUpCheckBoxes(contents , linearLayout , stateOfCheckedBox);
         }else{
-            setUpCheckBoxes(ingredients , linearLayout , null);
+            setUpCheckBoxes(contents , linearLayout , null);
         }
 
 
@@ -41,11 +41,12 @@ public class IngredientFragment extends Fragment {
         return view;
     }
 
+    public  abstract String[] getContents(int position) ;
 
-    private void setUpCheckBoxes(String[] ingredients , LinearLayout container, boolean[] stateOfCheckedBox){
+    private void setUpCheckBoxes(String[] contents , LinearLayout container, boolean[] stateOfCheckedBox){
         int i = 0;
         for (String ingredient:
-                ingredients) {
+                contents) {
 
             CheckBox checkBox = new CheckBox(getActivity());
 

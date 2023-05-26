@@ -5,7 +5,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:id="@+id/ingredientLayout"
+        android:id="@+id/checkBoxesLayout"
         android:layout_height="wrap_content">
 
     </LinearLayout>
